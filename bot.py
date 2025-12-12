@@ -6,10 +6,10 @@ from PIL import Image
 from io import BytesIO
 import requests
 import time
-
+import os
+from dotenv import load_dotenv
 
 MODEL_PATH = 'image_sentiment.pth'
-BOT_TOKEN = '8371305878:AAH6EUpud34_RlfSw64ipPDa2LsLxV6tLSo'
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -19,8 +19,8 @@ def build_model(num_classes=2):
     model.fc = nn.Linear(in_features, num_classes)
     return model
 
-
-bot = telebot.TeleBot(BOT_TOKEN)
+load_dotenv()
+bot = telebot.TeleBot(os.getenv('BOT_TOKEN'))
 model = build_model()
 state = torch.load(MODEL_PATH, map_location=device)
 model.load_state_dict(state['model_state'])
@@ -62,3 +62,4 @@ def predict(msg):
 if __name__ == '__main__':
     print('Bot running...')
     bot.polling()
+
