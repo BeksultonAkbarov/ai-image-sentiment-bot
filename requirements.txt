@@ -2,4 +2,5 @@ torch
 torchvision
 Pillow
 scikit-learn
+python-dotenv
 pyTelegramBotAPI
